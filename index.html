@@ -23,6 +23,7 @@
       --gold: #c58a2c;
       --card: rgba(255, 249, 241, 0.86);
     }
+    
 
     * { box-sizing: border-box; }
 
@@ -50,11 +51,16 @@
     }
 
     .brand-mark {
-      font-family: 'Playfair Display', serif;
-      font-size: 1.35rem;
-      font-weight: 700;
-      letter-spacing: 0.02em;
-    }
+  display: inline-flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.brand-mark img {
+  display: block;
+  width: 165px;
+  height: auto;
+}
 
     .nav {
       display: flex;
@@ -134,8 +140,28 @@
 
     .button:hover { transform: translateY(-2px); }
     .button.primary { background: var(--kimchi-red); color: #fff; box-shadow: 0 12px 30px rgba(201,61,33,0.22); }
-    .button.secondary { background: rgba(255,255,255,0.58); color: var(--ink); border-color: rgba(43,29,20,0.14); }
+    .button.secondary {
+    width: auto;
+    padding: 0.6rem 1.4rem;
+    margin: 0;
+    background: transparent;
+    color: var(--muted);
+    border: 1px solid rgba(43,29,20,.12);
+    box-shadow: none;
+    font-size: 0.9rem;
+    border-radius: 999px;
+}
 
+.button.secondary:hover {
+    background: rgba(43,29,20,0.05);
+}
+.launch-actions {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    margin-top: 24px;
+}
     .hero-art {
       position: relative;
       display: flex;
@@ -172,10 +198,12 @@
     }
 
     .cards {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 16px;
-    }
+    display: grid;
+    grid-template-columns: repeat(3, minmax(260px, 320px));
+    justify-content: center;
+    gap: 28px;
+    margin-top: 48px;
+}
 
     .card {
       background: var(--card);
@@ -259,6 +287,274 @@
     .schedule li:last-child { border-bottom: 0; }
     .schedule strong { color: var(--kimchi-red); }
 
+
+    .map-section {
+      margin-top: 28px;
+    }
+
+    .map-title {
+      text-align: center;
+      margin-bottom: 18px;
+    }
+
+    .map-title h3 {
+      margin: 0;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.6rem, 4vw, 2rem);
+    }
+
+    .map-title p {
+      margin: 8px 0 0;
+      color: var(--muted);
+    }
+
+    .map-container {
+      overflow: hidden;
+      border-radius: 30px;
+      border: 1px solid rgba(43, 29, 20, 0.1);
+      box-shadow: 0 12px 34px rgba(70, 36, 15, 0.08);
+      background: var(--card);
+    }
+
+    .map-container iframe {
+      display: block;
+      width: 100%;
+      height: 220px;
+      border: 0;
+    }
+
+
+    .launch-announcement {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 24px;
+      padding: 13px 18px;
+      border: 2px solid rgba(201, 61, 33, 0.28);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.72);
+      color: var(--deep-red);
+      font-size: clamp(0.95rem, 2vw, 1.08rem);
+      font-weight: 800;
+      box-shadow: 0 10px 26px rgba(201, 61, 33, 0.10);
+    }
+
+    .launch-modal {
+      position: fixed;
+      inset: 0;
+      z-index: 9998;
+      display: grid;
+      place-items: center;
+      padding: 24px;
+      background: rgba(43, 29, 20, 0.58);
+      backdrop-filter: blur(8px);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.3s ease, visibility 0.3s ease;
+    }
+
+    .launch-modal.show {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .launch-modal-card {
+      position: relative;
+      width: min(560px, 100%);
+      overflow: hidden;
+      border: 1px solid rgba(43, 29, 20, 0.12);
+      border-radius: 32px;
+      padding: clamp(30px, 6vw, 52px);
+      text-align: center;
+      background: var(--warm-cream);
+      box-shadow: 0 30px 90px rgba(43, 29, 20, 0.28);
+      transform: translateY(24px) scale(0.96);
+      transition: transform 0.35s ease;
+    }
+
+    .launch-modal.show .launch-modal-card {
+      transform: translateY(0) scale(1);
+    }
+
+    .launch-modal-card::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto;
+      height: 8px;
+      background: linear-gradient(90deg, var(--kimchi-red), var(--gold), var(--kimchi-red));
+    }
+
+    .launch-kicker {
+      margin: 0 0 8px;
+      color: var(--kimchi-red);
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0.13em;
+      text-transform: uppercase;
+    }
+
+    .launch-modal-card h2 {
+      margin: 0 0 14px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.3rem, 8vw, 4.4rem);
+      line-height: 0.95;
+      letter-spacing: -0.04em;
+    }
+
+    .launch-modal-card h2 span {
+      color: var(--kimchi-red);
+    }
+
+    .launch-modal-card p {
+      margin: 0 auto 22px;
+      max-width: 430px;
+      color: var(--muted);
+      font-size: 1.05rem;
+    }
+
+    .launch-details {
+      margin: 0 auto 26px;
+      padding: 16px 18px;
+      border-radius: 20px;
+      background: rgba(201, 61, 33, 0.08);
+      color: var(--ink);
+      font-weight: 700;
+    }
+
+    .launch-close {
+      position: absolute;
+      top: 16px;
+      right: 16px;
+      width: 42px;
+      height: 42px;
+      border: 0;
+      border-radius: 50%;
+      background: rgba(43, 29, 20, 0.08);
+      color: var(--ink);
+      font: inherit;
+      font-size: 1.4rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+
+    .launch-close:hover {
+      background: rgba(43, 29, 20, 0.14);
+    }
+
+    .confetti-layer {
+      position: fixed;
+      inset: 0;
+      z-index: 9999;
+      overflow: hidden;
+      pointer-events: none;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      top: -12vh;
+      width: 10px;
+      height: 18px;
+      border-radius: 2px;
+      opacity: 0.95;
+      animation:
+        confetti-fall var(--fall-duration) linear forwards,
+        confetti-sway var(--sway-duration) ease-in-out infinite alternate;
+      transform: rotate(var(--start-rotation));
+    }
+
+    @keyframes confetti-fall {
+      0% {
+        top: -12vh;
+        transform: translate3d(0, 0, 0) rotate(var(--start-rotation));
+      }
+      100% {
+        top: 112vh;
+        transform: translate3d(var(--drift), 0, 0) rotate(var(--end-rotation));
+      }
+    }
+
+    @keyframes confetti-sway {
+      from { margin-left: -14px; }
+      to { margin-left: 14px; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .confetti-layer {
+        display: none;
+      }
+
+      .launch-modal,
+      .launch-modal-card {
+        transition: none;
+      }
+      .brand-mark img {
+  width: 145px;
+}
+    }
+
+
+    .contact-section {
+      background: rgba(255, 255, 255, 0.34);
+      border-top: 1px solid rgba(43, 29, 20, 0.08);
+    }
+
+    .contact-card {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 22px;
+      margin-top: 36px;
+    }
+
+    .contact-item {
+      min-width: 0;
+      padding: 28px 22px;
+      text-align: center;
+      background: var(--card);
+      border: 1px solid rgba(43, 29, 20, 0.1);
+      border-radius: 24px;
+      box-shadow: 0 12px 34px rgba(70, 36, 15, 0.08);
+    }
+
+    .contact-item .contact-icon {
+      margin-bottom: 10px;
+      font-size: 1.8rem;
+    }
+
+    .contact-item h3 {
+      margin: 0 0 8px;
+      font-size: 1.1rem;
+    }
+
+    .contact-item p {
+      margin: 0;
+      color: var(--muted);
+    }
+
+    .contact-item a {
+      color: var(--kimchi-red);
+      font-weight: 700;
+      overflow-wrap: anywhere;
+    }
+
+    .contact-actions {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 30px;
+    }
+
+    .contact-actions .button.secondary {
+      width: auto !important;
+      margin: 0;
+      padding: 14px 20px;
+      font-size: 1rem;
+      font-weight: 800;
+      background: rgba(255, 255, 255, 0.58);
+      color: var(--ink);
+      border-color: rgba(43, 29, 20, 0.14);
+    }
+
     footer {
       text-align: center;
       padding: 34px 0 48px;
@@ -275,6 +571,7 @@
       .hero-art img { width: min(88vw, 520px); border-radius: 26px; }
       .cards { grid-template-columns: 1fr 1fr; }
       .find-us { grid-template-columns: 1fr; }
+      .contact-card { grid-template-columns: 1fr; }
     }
 
     @media (max-width: 560px) {
@@ -286,23 +583,59 @@
   </style>
 </head>
 <body>
+
+  <div class="launch-modal" id="launchModal" role="dialog" aria-modal="true" aria-labelledby="launchTitle">
+    <div class="launch-modal-card">
+      <button class="launch-close" id="launchClose" type="button" aria-label="Close launch announcement">×</button>
+  
+      <p class="launch-kicker">Grand Opening</p>
+  
+      <h2 id="launchTitle">We're launching <span>August 12!</span></h2>
+  
+      <p>
+        Come celebrate the official launch of Grandma's Kimchi at the
+        Sammamish Farmers Market.
+      </p>
+  
+      <div class="launch-details">
+        📍 Sammamish Commons<br />
+        825 228th Ave SE, Sammamish, WA 98075<br />
+        🕓 Wednesday · 4:00 PM–8:00 PM
+      </div>
+  
+      <a class="button primary" href="#find-us" id="launchDetailsButton">
+        See Market Details
+      </a>
+  
+      <button class="button secondary" id="hideFor4Hours">
+        Remind Me Later
+      </button>
+  
+    </div>
+  </div>
+
+  <div class="confetti-layer" id="confettiLayer" aria-hidden="true"></div>
+
   <div class="page">
     <header>
-      <a class="brand-mark" href="#">Grandma's Kimchi</a>
+      <a class="brand-mark" href="#" aria-label="Grandma's Kimchi home">
+        <img src="wordLogo.png" alt="Grandma's Kimchi" />
+      </a>
       <nav class="nav" aria-label="Main navigation">
         <a href="#kimchi">Our Kimchi</a>
         <a href="#story">Story</a>
         <a href="#find-us">Find Us</a>
+        <a href="#contact">Contact</a>
       </nav>
     </header>
 
     <main>
       <section class="hero">
         <div class="hero-copy">
-          <div class="eyebrow">Seattle, WA · Homemade Korean Kimchi</div>
+          <div class="eyebrow">Seattle, WA · Authentic Korean Kimchi</div>
           <h1>Grandma's <span>Kimchi</span></h1>
           <div class="korean-title">정성으로 담근 우리집 김치</div>
-          <p>Traditional Korean kimchi made in small batches with bold flavor, warm memories, and a whole lot of grandma energy.</p>
+          <p>Made with Love, Like Grandma's</p>
           <div class="buttons">
             <a class="button primary" href="https://www.instagram.com/grandmaskimchi_seattle/" target="_blank" rel="noreferrer">Follow on Instagram</a>
             <a class="button secondary" href="#find-us">Find Us at Markets</a>
@@ -319,29 +652,39 @@
     <div class="page">
       <div class="section-heading">
         <h2>Our Kimchi</h2>
-        <p>Classic Korean favorites prepared with care. Availability may change depending on market schedule and seasonal batches.</p>
+        <p>
+          Authentic Korean kimchi handcrafted with quality ingredients and
+          traditional family recipes.
+        </p>
       </div>
+  
       <div class="cards">
+  
         <article class="card">
-          <div class="emoji">🥬</div>
-          <h3>포기김치</h3>
-          <p>Whole napa cabbage kimchi with rich seasoning and classic deep flavor.</p>
+
+          <h3>배추김치</h3>
+          <p>
+            Traditional Napa kimchi crafted with authentic Korean seasoning for a bold, well-balanced flavor.
+          </p>
         </article>
+          
         <article class="card">
-          <div class="emoji">🌶️</div>
-          <h3>막김치</h3>
-          <p>Cut napa cabbage kimchi, easy to serve and perfect for everyday meals.</p>
-        </article>
-        <article class="card">
-          <div class="emoji">⬜</div>
-          <h3>깍두기</h3>
-          <p>Crunchy cubed radish kimchi with a refreshing, spicy kick.</p>
-        </article>
-        <article class="card">
-          <div class="emoji">🍲</div>
+
           <h3>석박지</h3>
-          <p>Rustic radish kimchi, delicious with soups, stews, and comfort food.</p>
+          <p>
+            Radish kimchi with a hearty crunch and rich, savory flavor.
+          </p>
         </article>
+  
+        <article class="card">
+    
+          <h3>오이소박이</h3>
+          <p>
+            Refreshing Cucumber kimchi stuffed with a flavorful blend of chives, green onions, and authentic Korean seasoning.
+          </p>
+        </article>
+
+  
       </div>
     </div>
   </section>
@@ -360,16 +703,111 @@
     <div class="page find-us">
       <div class="info-panel">
         <h2>Find Us at Local Markets</h2>
-        <p>We are starting locally through farmers markets and community events around the Seattle area. Follow Instagram for the latest market dates and batch updates.</p>
+        <p>We're excited to officially launch at the Sammamish Farmers Market on August 12! Come meet us, sample authentic Korean kimchi, and take home your favorite varieties. Follow us on Instagram for market updates and future events.</p>
         <a class="button" href="https://www.instagram.com/grandmaskimchi_seattle/" target="_blank" rel="noreferrer">@grandmaskimchi_seattle</a>
       </div>
       <div class="schedule">
         <h3>Market Schedule</h3>
         <ul>
-          <li><strong>Coming soon</strong><br />Farmers market dates will be announced on Instagram.</li>
-          <li><strong>Local pickup / event sales only</strong><br />Online shipping is not available at this time.</li>
-          <li><strong>Questions?</strong><br />Send us a DM on Instagram.</li>
+          <li>
+            <strong>🎉 Grand Opening</strong><br />
+            August 12, 2026
+          </li>
+        
+          <li>
+            <strong>📍 Sammamish Farmers Market</strong><br />
+            Sammamish Commons<br />
+            825 228th Ave SE<br />
+            Sammamish, WA 98075
+          </li>
+        
+          <li>
+            <strong>🕓 Wednesdays • 4:00 PM – 8:00 PM</strong><br />
+            Find us every Wednesday throughout the market season.
+          </li>
+        
+          <li>
+            <strong>📱 Follow Our Journey</strong><br />
+            Follow us on Instagram for weekly updates, new products, and special announcements.
+          </li>
         </ul>
+      </div>
+    </div>
+    <div class="page map-section">
+      <div class="map-title">
+        <h3>📍 Market Location</h3>
+        <p>Sammamish Farmers Market · Sammamish Commons</p>
+      </div>
+
+      <div class="map-container">
+        <iframe
+          title="Map showing the Sammamish Farmers Market location"
+          src="https://www.google.com/maps?q=825+228th+Ave+SE,+Sammamish,+WA+98075&output=embed"
+          loading="lazy"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="contact" class="contact-section">
+    <div class="page">
+      <div class="section-heading">
+        <h2>Let's Connect</h2>
+        <p>
+          Questions about our kimchi, upcoming markets, or wholesale opportunities?
+          We'd love to hear from you.
+        </p>
+      </div>
+
+      <div class="contact-card">
+        <article class="contact-item">
+          <div class="contact-icon" aria-hidden="true">✉️</div>
+          <h3>Email</h3>
+          <a href="mailto:grandmaskimchi@gmail.com">
+            info@grandmas-kimchi.com
+          </a>
+        </article>
+
+        <article class="contact-item">
+          <div class="contact-icon" aria-hidden="true">📷</div>
+          <h3>Instagram</h3>
+          <a
+            href="https://www.instagram.com/grandmaskimchi_seattle/"
+            target="_blank"
+            rel="noreferrer"
+          >
+            @grandmaskimchi_seattle
+          </a>
+        </article>
+
+        <article class="contact-item">
+          <div class="contact-icon" aria-hidden="true">🎵</div>
+          <h3>Tik Tok</h3>
+          <a
+          href="https://www.tiktok.com/@grandmas.kimchi"
+          target="_blank"
+          rel="noreferrer"
+        >
+          @grandmas.kimchi
+        </a>
+        </article>
+      </div>
+
+      <div class="contact-actions">
+        <a class="button primary" href="mailto:info@grandmas-kimchi.com">
+          Send Us an Email
+        </a>
+        <a
+          class="button secondary"
+          href="https://www.instagram.com/grandmaskimchi_seattle/"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Follow on Instagram
+        </a>
       </div>
     </div>
   </section>
@@ -382,6 +820,129 @@
 
   <script>
     document.getElementById('year').textContent = new Date().getFullYear();
+
+    const launchModal = document.getElementById('launchModal');
+    const launchClose = document.getElementById('launchClose');
+    const launchDetailsButton = document.getElementById('launchDetailsButton');
+    const hideFor4HoursButton = document.getElementById('hideFor4Hours');
+    const confettiLayer = document.getElementById('confettiLayer');
+
+    const HIDE_KEY = 'hideLaunchPopupUntil';
+    const FOUR_HOURS = 4 * 60 * 60 * 1000;
+
+    // The launch announcement automatically stops appearing after August 12, 2026.
+    // This uses the visitor's local time and disables the popup at the end of launch day.
+    const LAUNCH_END = new Date(2026, 7, 13, 0, 0, 0);
+
+    function createConfetti() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+      confettiLayer.innerHTML = '';
+
+      const colors = [
+        '#c93d21',
+        '#8f2718',
+        '#c58a2c',
+        '#0f3f68',
+        '#f2c14e',
+        '#ffffff'
+      ];
+      const pieceCount = 150;
+
+      for (let i = 0; i < pieceCount; i += 1) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti-piece';
+
+        const size = 6 + Math.random() * 8;
+        piece.style.left = `${Math.random() * 100}vw`;
+        piece.style.width = `${size}px`;
+        piece.style.height = `${size * (0.8 + Math.random())}px`;
+        piece.style.background =
+          colors[Math.floor(Math.random() * colors.length)];
+        piece.style.setProperty(
+          '--fall-duration',
+          `${3.5 + Math.random() * 3}s`
+        );
+        piece.style.setProperty(
+          '--sway-duration',
+          `${0.7 + Math.random() * 1.2}s`
+        );
+        piece.style.setProperty(
+          '--drift',
+          `${-80 + Math.random() * 160}px`
+        );
+        piece.style.setProperty(
+          '--start-rotation',
+          `${Math.random() * 360}deg`
+        );
+        piece.style.setProperty(
+          '--end-rotation',
+          `${720 + Math.random() * 720}deg`
+        );
+        piece.style.animationDelay = `${Math.random() * 1.4}s`;
+
+        confettiLayer.appendChild(piece);
+      }
+
+      window.setTimeout(() => {
+        confettiLayer.innerHTML = '';
+      }, 8500);
+    }
+
+    function openLaunchAnnouncement() {
+      launchModal.classList.add('show');
+      document.body.style.overflow = 'hidden';
+      createConfetti();
+    }
+
+    function closeLaunchAnnouncement() {
+      launchModal.classList.remove('show');
+      document.body.style.overflow = '';
+      confettiLayer.innerHTML = '';
+    }
+
+    function hideLaunchAnnouncementForFourHours() {
+      localStorage.setItem(HIDE_KEY, String(Date.now() + FOUR_HOURS));
+      closeLaunchAnnouncement();
+    }
+
+    function shouldShowLaunchAnnouncement() {
+      if (Date.now() >= LAUNCH_END.getTime()) {
+        return false;
+      }
+
+      const hiddenUntil = Number(localStorage.getItem(HIDE_KEY) || 0);
+      return Date.now() > hiddenUntil;
+    }
+
+    window.addEventListener('load', () => {
+      if (shouldShowLaunchAnnouncement()) {
+        window.setTimeout(openLaunchAnnouncement, 350);
+      }
+    });
+
+    // Any intentional dismissal suppresses the popup and confetti for four hours.
+    launchClose.addEventListener('click', hideLaunchAnnouncementForFourHours);
+    hideFor4HoursButton.addEventListener(
+      'click',
+      hideLaunchAnnouncementForFourHours
+    );
+    launchDetailsButton.addEventListener(
+      'click',
+      hideLaunchAnnouncementForFourHours
+    );
+
+    launchModal.addEventListener('click', (event) => {
+      if (event.target === launchModal) {
+        hideLaunchAnnouncementForFourHours();
+      }
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && launchModal.classList.contains('show')) {
+        hideLaunchAnnouncementForFourHours();
+      }
+    });
   </script>
 </body>
 </html>
