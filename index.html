@@ -159,8 +159,8 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 16px;
-    margin-top: 24px;
+    gap: 20px;
+    margin-top: 30px;
 }
     .hero-art {
       position: relative;
@@ -574,7 +574,25 @@
       .contact-card { grid-template-columns: 1fr; }
     }
 
-    @media (max-width: 560px) {
+    
+    @media (max-width: 768px) {
+      .launch-actions {
+        gap: 26px;
+        margin-top: 34px;
+      }
+
+      .launch-actions .button.primary {
+        margin-bottom: 6px;
+      }
+
+      .launch-actions .button.secondary {
+        width: auto;
+        padding: 0.45rem 1rem;
+        font-size: 0.82rem;
+      }
+    }
+
+@media (max-width: 560px) {
       .nav { display: none; }
       .cards { grid-template-columns: 1fr; }
       section { padding: 52px 0; }
