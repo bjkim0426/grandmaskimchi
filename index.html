@@ -814,6 +814,7 @@
           />
 
           <input type="hidden" name="source" value="Grandma's Kimchi website" />
+          <input type="hidden" name="responseToken" value="GK_LAUNCH_SIGNUP_2026" />
           <button class="button primary" id="signupButton" type="submit">Notify Me</button>
         </form>
 
@@ -1157,16 +1158,14 @@
         signupButton.disabled = false;
         signupButton.textContent = 'Notify Me';
         signupStatus.textContent = 'We could not confirm your signup. Please try again.';
-      }, 12000);
+      }, 6000);
     });
 
     window.addEventListener('message', (event) => {
-      const signupFrame = document.getElementById('signupSubmissionFrame');
-
       if (
-        event.source !== signupFrame.contentWindow ||
         !event.data ||
-        event.data.type !== 'grandmas-kimchi-signup'
+        event.data.type !== 'grandmas-kimchi-signup' ||
+        event.data.token !== 'GK_LAUNCH_SIGNUP_2026'
       ) {
         return;
       }
