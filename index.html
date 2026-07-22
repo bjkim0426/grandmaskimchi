@@ -1161,11 +1161,13 @@
     });
 
     window.addEventListener('message', (event) => {
-      const trustedOrigin =
-        event.origin === 'https://script.google.com' ||
-        event.origin.endsWith('.googleusercontent.com');
+      const signupFrame = document.getElementById('signupSubmissionFrame');
 
-      if (!trustedOrigin || !event.data || event.data.type !== 'grandmas-kimchi-signup') {
+      if (
+        event.source !== signupFrame.contentWindow ||
+        !event.data ||
+        event.data.type !== 'grandmas-kimchi-signup'
+      ) {
         return;
       }
 
