@@ -493,6 +493,87 @@
     }
 
 
+    .launch-signup-section {
+      padding: 26px 0 72px;
+    }
+
+    .launch-signup-card {
+      width: min(860px, 100%);
+      margin: 0 auto;
+      padding: clamp(28px, 5vw, 46px);
+      text-align: center;
+      background: var(--warm-cream);
+      border: 1px solid rgba(43, 29, 20, 0.1);
+      border-radius: 30px;
+      box-shadow: 0 18px 44px rgba(70, 36, 15, 0.08);
+    }
+
+    .launch-signup-card h2 {
+      margin: 0 0 10px;
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2rem, 5vw, 3.2rem);
+      letter-spacing: -0.03em;
+    }
+
+    .launch-signup-card > p {
+      max-width: 620px;
+      margin: 0 auto 24px;
+      color: var(--muted);
+    }
+
+    .launch-signup-form {
+      display: flex;
+      width: min(620px, 100%);
+      margin: 0 auto;
+      gap: 12px;
+      align-items: stretch;
+    }
+
+    .launch-signup-form input[type="email"] {
+      min-width: 0;
+      flex: 1;
+      padding: 14px 18px;
+      border: 1px solid rgba(43, 29, 20, 0.18);
+      border-radius: 999px;
+      background: #fff;
+      color: var(--ink);
+      font: inherit;
+      outline: none;
+    }
+
+    .launch-signup-form input[type="email"]:focus {
+      border-color: var(--kimchi-red);
+      box-shadow: 0 0 0 4px rgba(201, 61, 33, 0.1);
+    }
+
+    .launch-signup-form .button {
+      flex: 0 0 auto;
+      cursor: pointer;
+    }
+
+    .signup-consent {
+      margin: 14px auto 0 !important;
+      font-size: 0.8rem;
+      color: var(--muted);
+    }
+
+    .signup-status {
+      min-height: 1.6em;
+      margin: 14px auto 0 !important;
+      font-weight: 700;
+      color: var(--deep-red) !important;
+    }
+
+    .signup-honeypot {
+      position: absolute !important;
+      width: 1px !important;
+      height: 1px !important;
+      overflow: hidden !important;
+      clip: rect(1px, 1px, 1px, 1px) !important;
+      white-space: nowrap !important;
+    }
+
+
     .contact-section {
       background: rgba(255, 255, 255, 0.34);
       border-top: 1px solid rgba(43, 29, 20, 0.08);
@@ -665,6 +746,62 @@
       </section>
     </main>
   </div>
+
+  <section class="launch-signup-section" aria-labelledby="signupTitle">
+    <div class="page">
+      <div class="launch-signup-card">
+        <h2 id="signupTitle">Be the First to Know</h2>
+        <p>
+          Join the Grandma's Kimchi launch list and we'll email you when online ordering opens.
+        </p>
+
+        <form
+          class="launch-signup-form"
+          id="launchSignupForm"
+          action="https://script.google.com/macros/s/AKfycbxLE2VvcqEBsca10PAZkxMmPT28k_P7VV6J9qgWmyis5pDMoNxmj0-pkXXerFfM6A22/exec"
+          method="POST"
+          target="signupSubmissionFrame"
+        >
+          <label class="signup-honeypot" for="companyWebsite">Leave this field blank</label>
+          <input
+            class="signup-honeypot"
+            id="companyWebsite"
+            name="website"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          />
+
+          <label class="signup-honeypot" for="launchEmail">Email address</label>
+          <input
+            id="launchEmail"
+            name="email"
+            type="email"
+            inputmode="email"
+            autocomplete="email"
+            placeholder="Enter your email address"
+            aria-describedby="signupConsent signupStatus"
+            required
+          />
+
+          <input type="hidden" name="source" value="Grandma's Kimchi website" />
+          <button class="button primary" id="signupButton" type="submit">Notify Me</button>
+        </form>
+
+        <iframe
+          name="signupSubmissionFrame"
+          id="signupSubmissionFrame"
+          title="Email signup submission"
+          hidden
+        ></iframe>
+
+        <p class="signup-consent" id="signupConsent">
+          By signing up, you agree to receive launch and market updates from Grandma's Kimchi. You may unsubscribe at any time.
+        </p>
+        <p class="signup-status" id="signupStatus" role="status" aria-live="polite"></p>
+      </div>
+    </div>
+  </section>
 
   <section id="kimchi">
     <div class="page">
@@ -844,6 +981,10 @@
     const launchDetailsButton = document.getElementById('launchDetailsButton');
     const hideFor4HoursButton = document.getElementById('hideFor4Hours');
     const confettiLayer = document.getElementById('confettiLayer');
+    const launchSignupForm = document.getElementById('launchSignupForm');
+    const launchEmail = document.getElementById('launchEmail');
+    const signupButton = document.getElementById('signupButton');
+    const signupStatus = document.getElementById('signupStatus');
 
     const HIDE_KEY = 'hideLaunchPopupUntil';
     const FOUR_HOURS = 4 * 60 * 60 * 1000;
@@ -961,6 +1102,34 @@
         hideLaunchAnnouncementForFourHours();
       }
     });
+
+    launchSignupForm.addEventListener('submit', (event) => {
+      const endpoint = launchSignupForm.getAttribute('action');
+
+      if (!endpoint || endpoint === '#') {
+        event.preventDefault();
+        signupStatus.textContent = 'The signup form is not connected yet. Please add the Google Apps Script web app URL.';
+        return;
+      }
+
+      if (!launchEmail.checkValidity()) {
+        event.preventDefault();
+        launchEmail.reportValidity();
+        return;
+      }
+
+      signupButton.disabled = true;
+      signupButton.textContent = 'Submitting...';
+      signupStatus.textContent = '';
+
+      window.setTimeout(() => {
+        launchSignupForm.reset();
+        signupButton.disabled = false;
+        signupButton.textContent = 'Notify Me';
+        signupStatus.textContent = "Thank you! We'll email you when Grandma's Kimchi is available.";
+      }, 900);
+    });
+
   </script>
 </body>
 </html>
