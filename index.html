@@ -825,7 +825,7 @@
         ></iframe>
 
         <p class="signup-consent" id="signupConsent">
-          By signing up, you agree to receive launch and market updates from Grandma's Kimchi. You may unsubscribe at any time.
+          By signing up, you'll be the first to hear about our August 12 launch, new market dates, online ordering, and occasional Grandma's Kimchi updates. You may unsubscribe at any time.
         </p>
         <p class="signup-status" id="signupStatus" role="status" aria-live="polite"></p>
       </div>
@@ -1014,6 +1014,7 @@
     const launchEmail = document.getElementById('launchEmail');
     const signupButton = document.getElementById('signupButton');
     const signupStatus = document.getElementById('signupStatus');
+    let signupResponseTimer;
 
     const HIDE_KEY = 'hideLaunchPopupUntil';
     const FOUR_HOURS = 4 * 60 * 60 * 1000;
@@ -1137,7 +1138,7 @@
 
       if (!endpoint || endpoint === '#') {
         event.preventDefault();
-        signupStatus.textContent = 'The signup form is not connected yet. Please add the Google Apps Script web app URL.';
+        signupStatus.textContent = 'The signup form is not connected yet.';
         return;
       }
 
@@ -1149,14 +1150,53 @@
 
       signupButton.disabled = true;
       signupButton.textContent = 'Submitting...';
-      signupStatus.textContent = '';
+      signupStatus.textContent = 'Please wait...';
 
-      window.setTimeout(() => {
-        launchSignupForm.reset();
+      window.clearTimeout(signupResponseTimer);
+      signupResponseTimer = window.setTimeout(() => {
         signupButton.disabled = false;
         signupButton.textContent = 'Notify Me';
-        signupStatus.textContent = "Thank you! We'll email you when Grandma's Kimchi is available.";
-      }, 900);
+        signupStatus.textContent = 'We could not confirm your signup. Please try again.';
+      }, 12000);
+    });
+
+    window.addEventListener('message', (event) => {
+      const trustedOrigin =
+        event.origin === 'https://script.google.com' ||
+        event.origin.endsWith('.googleusercontent.com');
+
+      if (!trustedOrigin || !event.data || event.data.type !== 'grandmas-kimchi-signup') {
+        return;
+      }
+
+      window.clearTimeout(signupResponseTimer);
+
+      const status = event.data.status;
+
+      if (status === 'subscribed') {
+        launchSignupForm.reset();
+        signupButton.textContent = "You're Signed Up!";
+        signupStatus.textContent =
+          "Thank you! You'll be the first to hear about our August 12 launch, new market dates, and online ordering.";
+      } else if (status === 'already subscribed') {
+        signupButton.textContent = 'Already Signed Up';
+        signupStatus.textContent = "You're already on our launch list!";
+      } else if (status === 'invalid email') {
+        signupButton.textContent = 'Notify Me';
+        signupStatus.textContent = 'Please enter a valid email address.';
+        launchEmail.focus();
+      } else {
+        signupButton.textContent = 'Notify Me';
+        signupStatus.textContent = 'Something went wrong. Please try again.';
+      }
+
+      signupButton.disabled = false;
+
+      window.setTimeout(() => {
+        if (signupButton.textContent !== 'Submitting...') {
+          signupButton.textContent = 'Notify Me';
+        }
+      }, 4000);
     });
 
   </script>
